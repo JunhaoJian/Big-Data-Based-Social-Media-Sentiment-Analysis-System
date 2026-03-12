@@ -1,0 +1,101 @@
+﻿Index,Text Content,True Label,Predicted Label,Is Correct
+1,1         活动 一下 买 4 ...,Positive,Positive,True
+2,1 	 老爷子 设计 主理 精品 制作 ...,Positive,Positive,True
+3,1         鬼 京东 京东   ...,Negative,Negative,True
+4,1         电池 不是 很 耐用...,Negative,Negative,True
+5,1         有点像 青苹果 味道...,Negative,Negative,True
+6,1 	 鼓掌   生 蚝 木有 看 知道...,Positive,Positive,True
+7,1         看到 说 四件 赠品...,Negative,Negative,True
+8,1         酒店 老 没睡 大床...,Positive,Positive,True
+9,1 	 回复 大金 69   滴   泰...,Positive,Positive,True
+10,1 	 罗大 宁宁 小学 妹 er --...,Positive,Positive,True
+11,1         差差 差差 差差 差...,Negative,Negative,True
+12,1 	 回覆 helen _ pony ...,Positive,Positive,True
+13,1         活动 时买 收到 货...,Positive,Positive,True
+14,1         布质 很 差 粘毛 ...,Negative,Negative,True
+15,1 	 好萌 太 开心   三 大名 捕...,Positive,Positive,True
+16,1 	 可爱 mua...,Positive,Positive,True
+17,1 	 回复 Mathlove 那也好 ...,Positive,Positive,True
+18,1 	 切 总   微笑 行动 爱 奔跑...,Positive,Positive,True
+19,1 	 广州 周小一   helen h...,Positive,Positive,True
+20,1 	 恭喜 丹丹 新书 出版 ~ ~ ...,Positive,Positive,True
+21,1         苹果 外表 好看 味...,Positive,Positive,True
+22,1 	 橄榄 核雕   文玩   周 山...,Positive,Positive,True
+23,1 	 照片 很酷 人 很帅 锅子 … ...,Positive,Positive,True
+24,1         双数 房间 听到 高...,Negative,Negative,True
+25,1 	 认识 二十年 ~ 终于 一起 ~...,Positive,Positive,True
+26,1 	 应该 ＂ 逗 地主 ＂...,Positive,Positive,True
+27,1         出差 入住 价格 比...,Negative,Positive,False
+28,1 	 著名 表演艺术家   黑月 铁骑...,Positive,Positive,True
+29,1 	 网友   天才 小熊猫   最近...,Positive,Positive,True
+30,1 	 一朵 奇葩 ~ ~   好开心 ...,Positive,Positive,True
+31,1 	 今晚 陪米国 美女 美眉 吃 川...,Positive,Positive,True
+32,1         发货 很快   卖家...,Positive,Positive,True
+33,1         好 失望 洗 之后 ...,Negative,Negative,True
+34,1         不是 很甜 上次 买...,Negative,Negative,True
+35,1         好大 一只 苍蝇 好...,Negative,Negative,True
+36,1         都 不 说 物流 不...,Negative,Negative,True
+37,1 	 话筒 开团 康源瑞廷 酒店   ...,Positive,Positive,True
+38,1         觉得 眼光 不错 很...,Positive,Positive,True
+39,1 	 值得 推荐 威武 话筒   热点...,Positive,Positive,True
+40,1         蛮 好看 运行 速度...,Positive,Positive,True
+41,1 	 报告 嘻嘻...,Positive,Positive,True
+42,1         不错 不错 这次 尝...,Positive,Positive,True
+43,1         使用 感觉   1 ...,Positive,Negative,False
+44,1         买 这台 平板 决定...,Negative,Negative,True
+45,1 	 刚有 朋友 说 放在 仙来 办事...,Positive,Positive,True
+46,1 	 花痴 还 二 函冰 _ Lily...,Positive,Positive,True
+47,1         9 颗 大大的 还 ...,Positive,Negative,False
+48,1         条 裤子 穿 起来 ...,Positive,Positive,True
+49,1 	 莱卡   photogang ＂...,Positive,Positive,True
+50,1 	   终于 有所 斩获 布 很 上...,Positive,Positive,True
+51,1 	   沈莉卓 お い し か っ ...,Positive,Positive,True
+52,1 	 鼓掌 动动 飞天 小女警   亲...,Positive,Positive,True
+53,1 	   瑶里 光荣 上榜...,Positive,Positive,True
+54,1 	 这种 组合 很 有意思 创新 最...,Positive,Positive,True
+55,1         货 打开 洗发水 撒...,Negative,Negative,True
+56,1 	 回复 好人 老周 嘻嘻 有福 有...,Positive,Positive,True
+57,1 	 美丽 冻人 跨 年 倒数 可爱 ...,Positive,Positive,True
+58,1 	 鼓掌   旅游 达 人 转发 微...,Positive,Positive,True
+59,1 	 好不容易 有个 编辑 去 演戏 ...,Positive,Positive,True
+60,1 	 偷笑 偷笑 邓伯庚 这是 大胆 ...,Positive,Positive,True
+61,1 	 本来 觉得 温网 已经 冷到 无...,Positive,Positive,True
+62,1         衣服 很 垃圾 物流...,Negative,Negative,True
+63,1 	 欢迎光临 v12 店   祝您 ...,Positive,Positive,True
+64,1 	 昨天 才 知道 农大 绿 嘻嘻...,Positive,Positive,True
+65,1         设备 完善 环境 好...,Positive,Positive,True
+66,1         京东 快 收到 还 ...,Positive,Positive,True
+67,1 	 心声 爱 强大 leader 保...,Positive,Positive,True
+68,1 	 四季 尼洋河 爱...,Positive,Positive,True
+69,1         优点 位置 挺 好 ...,Positive,Positive,True
+70,1         足称 个头 不 均匀...,Positive,Negative,False
+71,1 	 再次 转发 加 祝贺 很 开心 ...,Positive,Positive,True
+72,1         触摸屏 勿触 不好 ...,Negative,Negative,True
+73,1         段时间 都 买 牌子...,Negative,Negative,True
+74,1 	 妈给力 泰特 斯 波罗 V 转发...,Positive,Positive,True
+75,1         才 买 一天 降价 ...,Negative,Negative,True
+76,1 	 好吃 宜宾 燃面 金鼎轩 嘻嘻...,Positive,Positive,True
+77,1         不 含 保护膜 还 ...,Negative,Negative,True
+78,1 	 互粉 天天向上 五周年 特异功能...,Positive,Positive,True
+79,1         看着 不错 新鲜 都...,Positive,Positive,True
+80,1         1 酒店 比较 新 ...,Positive,Positive,True
+81,1         差评 针对 京东 今...,Negative,Negative,True
+82,1         发货 快 第二天 收...,Positive,Positive,True
+83,1         很 好 开机 升级 ...,Positive,Positive,True
+84,1         衣服 还 行 码偏 ...,Negative,Positive,False
+85,1         华为 荣耀 平板 不...,Positive,Positive,True
+86,1 	 高飞 小米 9527   wo ...,Positive,Positive,True
+87,1         刚买 完 变 130...,Negative,Negative,True
+88,1         屏幕 反应迟钝 怀疑...,Negative,Negative,True
+89,1         裤子 试穿 一下 很...,Positive,Positive,True
+90,1 	 学识 玩微博   转发 微博...,Positive,Positive,True
+91,1         买 三瓶 还 没用 ...,Positive,Negative,False
+92,1 	 _ 征满   爸 去 东莞 改车...,Positive,Positive,True
+93,1 	 枫叶   叔儿 ~ 七 阿姨  ...,Positive,Positive,True
+94,1         很 满意 京东 给力...,Positive,Positive,True
+95,1         感觉 买 小 穿 上...,Negative,Negative,True
+96,1 	   爆炸 太子 好 贱 全球 经...,Positive,Positive,True
+97,1 	 鼓掌 小 院里 一位 可耐滴 小...,Positive,Positive,True
+98,1 	 听 一首   加利福尼亚 Hop...,Positive,Positive,True
+99,1 	 漓江 出版社 阅美 文化   阅...,Positive,Positive,True
+100,1         第一次 差评 洗发水...,Negative,Negative,True

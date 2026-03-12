@@ -1,0 +1,520 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/js/js.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.limarquee.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.cxselect.min.js"></script>
+    <link rel="stylesheet" href="/static/css/comon0.css">
+
+    <style>
+        .activity-item {
+            display: flex; /* Use Flexbox */
+            align-items: center; /* Vertically center align */
+            margin-bottom: 5px; /* Bottom margin for each activity item */
+        }
+
+        .activity-item img {
+            width: 60px; /* Image width */
+            height: 60px; /* Image height */
+            margin-right: 10px; /* Spacing between image and text */
+        }
+
+        .activity-label {
+            font-weight: bold; /* Bold attraction name */
+        }
+
+        .highlight-success {
+            color: green; /* Positive comment count color */
+        }
+    </style>
+
+</head>
+<body>
+<div style="background:#000d4a url(/static/images/bg.jpg) center top;">
+    <div class="loading">
+        <div class="loadbox"><img src="/static/picture/loading.gif"> Loading page...</div>
+    </div>
+    <div class="back"></div>
+    <div class="head">
+        <h1>Blogger Data Visualization</h1>
+        <div class="weather"><span id="showTime"></span></div>
+    </div>
+
+    <div class="mainbox">
+        <ul class="clearfix">
+            <li>
+                <div class="boxall" style="height:545px;">
+
+                    <div class="navboxall">
+                        <div class="sycm">
+                            <ul class="clearfix">
+                                <style>
+                                    .highlight {
+                                        color: #f3efef; /* Custom color */
+                                        font-weight: bold; /* Bold font */
+                                    }
+                                </style>
+
+                                <li>
+                                    <h3 class="highlight">{{ total_follower_over_10m }}</h3>
+                                    <span class="highlight">Number of Bloggers with 10M+ Followers</span>
+                                </li>
+                                <li>
+                                    <h3 class="highlight">{{ max_hot_weibo_likes }}</h3>
+                                    <span class="highlight">Likes on Trending Weibo Posts</span>
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+
+                        <div class="col-xl-4">
+                            <style>
+                                .highlight-title {
+                                    color: #ffffff; /* Custom highlight color */
+                                    font-weight: bold;
+                                }
+
+                                .highlight-text {
+                                    color: #ffffff; /* Custom highlight color */
+                                    font-weight: bold;
+                                }
+
+                                .highlight-success {
+                                    color: #ffffff; /* Custom positive comment highlight color */
+                                    font-weight: bold;
+                                }
+                            </style>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="highlight-title mt-0 header-title mb-4 fw-bold text-primary">
+                                        Trending Bloggers</h4>
+                                    <div class="vertical-carousel-container"
+                                         style="width: 100%; border: 1px solid #ddd; padding: 10px; overflow: hidden; height: 400px; position: relative;">
+                                        <!-- Table Header -->
+                                        <div class="carousel-header"
+                                             style="display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px solid #ccc; padding: 5px 0; background-color: #f8f8f8;">
+                                            <div style="width: 50%; text-align: center;">Blogger</div>
+                                            <div style="width: 50%; text-align: center;">Total Reposts+Comments+Likes</div>
+                                        </div>
+
+                                        <!-- Scrolling Content -->
+                                        <div class="vertical-carousel-content"
+                                             style="position: relative; width: 100%; animation: vertical-scroll 40s linear infinite;">
+                                            {% for item in bozhu_table[:50] %}  <!-- Display first 50 items initially -->
+                                                <div class="carousel-item"
+                                                     style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                                                    <a href="{{ item['full_profile_url'] }}" target="_blank"
+                                                       style="width: 50%; text-decoration: none; color: #007bff; font-size: 14px; text-align: center; font-weight: bold;">
+                                                        {{ item['user'] }}  <!-- Blogger Name -->
+                                                    </a>
+                                                    <div style="width: 50%;color: #007bff; text-align: center;">{{ item['total_format'] }}
+                                                        <!-- Reposts+Comments+Likes --></div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Auto Vertical Scrolling Effect -->
+                                    <style>
+                                        @keyframes vertical-scroll {
+                                            0% {
+                                                transform: translateY(0);
+                                            }
+                                            100% {
+                                                transform: translateY(-100%);
+                                            }
+                                        }
+
+                                        .vertical-carousel-container {
+                                            height: 400px; /* Adjust container height */
+                                            overflow: hidden;
+                                        }
+
+                                        .vertical-carousel-content {
+                                            animation: vertical-scroll 40s linear infinite; /* Scroll once every 40 seconds */
+                                            display: flex;
+                                            flex-direction: column;
+                                        }
+
+                                        .carousel-item {
+                                            height: 50px; /* Height of each item */
+                                        }
+                                    </style>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="boxall" style="height:545px">
+                    <div class="alltitle">Top 100 Trending Weibo Posts</div>
+                    <div id="firstMain" style="width: 110%;height: 540px"></div>
+                </div>
+            </li>
+            <li>
+                <div class="boxall" style="height:260px">
+                    <div class="alltitle">Follower Count Range Distribution</div>
+                    <div id="5Apinglun" style="width: 100%;height: 220px"></div>
+                </div>
+                <div class="boxall" style="height:270px">
+                    <div class="alltitle">Follower Volume</div>
+                    <div id="main" style="width: 100%;height: 220px"></div>
+                </div>
+            </li>
+        </ul>
+        <ul class="clearfix">
+            <li>
+                <div class="boxall" style="height:390px;">
+                    <div class="alltitle">User Distribution</div>
+                    <div id="hhmain" style="height: 400px"></div>
+
+                </div>
+            </li>
+            <li style="width:38%">
+                <div class="boxall" style="width:138%;height:390px">
+                    <div class="alltitle">Hot Ranking Comparison</div>
+                    <div id="4Apinglun" style="width: 100%;height: 360px"></div>
+                </div>
+            </li>
+            <li style="width:38%">
+                <div class="boxall" style="margin-left: 200px;width:62%;height:390px">
+                    <div class="alltitle">Blogger Word Cloud</div>
+                    <div id="echart5" style="width: 100%;height: 20px;"></div>
+                    <img src="../static/image/dapingwordcloud1.png" style="width: 100%;height: 320px;">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.wrap').liMarquee({
+            direction: 'up',// Scroll up
+            //runshort: false,// Do not scroll when content is insufficient
+            scrollamount: 20// Speed
+        });
+    });
+</script>
+
+<script src="/static/js/echarts.js"></script>
+{# Attraction Ticket Price Bar Chart #}
+<script>
+    var chartDom = document.getElementById('firstMain');// Ticket price bar chart
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    // prettier-ignore
+    let dataAxis = {{ xData2 | tojson}};
+    // prettier-ignore
+    let data = {{ yData2 | tojson}};
+    let yMax = 500;
+    let dataShadow = [];
+    for (let i = 0; i < data.length; i++) {
+        dataShadow.push(yMax);
+    }
+    option = {
+        tooltip: {// Show value on mouse hover
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+            }
+        },
+        //title: {
+        //text: 'Feature Sample: Gradient Color, Shadow, Click Zoom',
+        //subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
+        // },
+        xAxis: {
+            data: dataAxis,
+            axisLabel: {
+                inside: true,
+                color: '#fff'
+            },
+            axisTick: {
+                show: false
+            },
+            axisLine: {
+                show: false
+            },
+            z: 10
+        },
+        yAxis: {
+            axisLine: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            axisLabel: {
+                color: '#999'
+            }
+        },
+        dataZoom: [
+            {
+                type: 'inside'
+            }
+        ],
+        series: [
+            {
+                name: 'Trending Weibo Count',
+                type: 'bar',
+                showBackground: true,
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        {offset: 0, color: '#83bff6'},
+                        {offset: 0.5, color: '#188df0'},
+                        {offset: 1, color: '#188df0'}
+                    ])
+                },
+                emphasis: {
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            {offset: 0, color: '#2378f7'},
+                            {offset: 0.7, color: '#2378f7'},
+                            {offset: 1, color: '#83bff6'}
+                        ])
+                    }
+                },
+                data: data
+            }
+        ]
+    };
+    // Enable data zoom when user click bar.
+    const zoomSize = 6;
+    myChart.on('click', function (params) {
+        console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+        myChart.dispatchAction({
+            type: 'dataZoom',
+            startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+            endValue:
+                dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+        });
+    });
+
+    option && myChart.setOption(option);
+
+</script>
+{#5A Scenic Spot Single Positive Rating#}
+<script>
+    var chartDom = document.getElementById('5Apinglun'); // 5A positive comments
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    // Get follower count range data
+    var followerList = {{ followerList_list|tojson }}; // Pass dictionary data from backend to frontend
+    var followerData = [
+        { value: followerList[0], name: '2M-4M Followers' },
+        { value: followerList[1], name: '4M-6M Followers' },
+        { value: followerList[2], name: '6M-8M Followers' },
+        { value: followerList[3], name: '8M-10M Followers' },
+        { value: followerList[4], name: '10M+ Followers' }
+    ];
+
+    option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        series: [
+            {
+
+                type: 'pie',
+                radius: [30, 80],
+                center: ['50%', '50%'],
+                roseType: 'area',
+                itemStyle: {
+                    borderRadius: 8
+                },
+                data: followerData // Use processed data
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+</script>
+
+{# Ticket Sales Line Chart #}
+<script>
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    // Get xData3 and yData3
+    let xData3 = {{ xData3 | tojson }}; // X-axis
+    let yData3 = {{ yData3 | tojson }}; // Y-axis
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            position: function (pt) {
+                return [pt[0], '10%'];
+            }
+        },
+        title: {
+            left: 'center',
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: xData3 // Use xData3 as X-axis
+        },
+        yAxis: {
+            type: 'value',
+            boundaryGap: [0, '100%']
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 0,
+                end: 10
+            },
+            {
+                start: 0,
+                end: 10
+            }
+        ],
+        series: [
+            {
+                name: 'Follower Count',
+                type: 'line', // Can modify name
+                symbol: 'none',
+                sampling: 'lttb',
+                itemStyle: {
+                    color: 'rgb(255, 70, 131)'
+                },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        {
+                            offset: 0,
+                            color: 'rgb(255, 158, 68)'
+                        },
+                        {
+                            offset: 1,
+                            color: 'rgb(255, 70, 131)'
+                        }
+                    ])
+                },
+                data: yData3 // Use yData3 as Y-axis
+            }
+        ]
+    };
+    option && myChart.setOption(option);
+</script>
+
+{# User Distribution Pie Chart #}
+<script>
+    var chartDom = document.getElementById('hhmain');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: 'User Creation Time',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                center: ['50%', '70%'],
+                startAngle: 180,
+                endAngle: 360,
+                data: {{ userDataList|tojson }}
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+</script>
+{# Xi'an Map #}
+<script>
+    var chartDom = document.getElementById('4Apinglun'); // Line chart container
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    // prettier-ignore
+    let xData4 = {{ xData4 | tojson }};
+    // prettier-ignore
+    let yData4_1 = {{ yData4_1 | tojson }};
+    // prettier-ignore
+    let yData4_2 = {{ yData4_2 | tojson }};
+    // prettier-ignore
+    let yData4_3 = {{ yData4_3 | tojson }};
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+            }
+        },
+        xAxis: {
+            type: 'category',
+            data: xData4,
+            axisLabel: {
+                color: '#999'
+            },
+            axisLine: {
+                show: true
+            },
+        },
+        yAxis: {
+            type: 'value',
+            axisLine: {
+                show: true
+            },
+            axisTick: {
+                show: false
+            },
+            axisLabel: {
+                color: '#999'
+            }
+        },
+        series: [
+            {
+                name: 'Hot Ranking Likes',
+                type: 'line',
+                smooth: true,
+                data: yData4_1,
+                itemStyle: {
+                    color: '#83bff6'
+                },
+            },
+            {
+                name: 'Hot Ranking Comments',
+                type: 'line',
+                smooth: true,
+                data: yData4_2,
+                itemStyle: {
+                    color: '#188df0'
+                },
+            },
+            {
+                name: 'Hot Ranking Reposts',
+                type: 'line',
+                smooth: true,
+                data: yData4_3,
+                itemStyle: {
+                    color: '#f6a600'
+                },
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+</script>
+
+</body>
+</html>
