@@ -3,7 +3,7 @@
 2,1 	 老爷子 设计 主理 精品 制作 ...,Positive,Positive,True
 3,1         鬼 京东 京东   ...,Negative,Negative,True
 4,1         电池 不是 很 耐用...,Negative,Negative,True
-5,1         有点像 青苹果 味道...,Negative,Negative,True
+5,1         有点像 青苹果 味道...,Negative,Positive,False
 6,1 	 鼓掌   生 蚝 木有 看 知道...,Positive,Positive,True
 7,1         看到 说 四件 赠品...,Negative,Negative,True
 8,1         酒店 老 没睡 大床...,Positive,Positive,True
@@ -41,11 +41,11 @@
 40,1         蛮 好看 运行 速度...,Positive,Positive,True
 41,1 	 报告 嘻嘻...,Positive,Positive,True
 42,1         不错 不错 这次 尝...,Positive,Positive,True
-43,1         使用 感觉   1 ...,Positive,Negative,False
-44,1         买 这台 平板 决定...,Negative,Negative,True
+43,1         使用 感觉   1 ...,Positive,Positive,True
+44,1         买 这台 平板 决定...,Negative,Positive,False
 45,1 	 刚有 朋友 说 放在 仙来 办事...,Positive,Positive,True
 46,1 	 花痴 还 二 函冰 _ Lily...,Positive,Positive,True
-47,1         9 颗 大大的 还 ...,Positive,Negative,False
+47,1         9 颗 大大的 还 ...,Positive,Positive,True
 48,1         条 裤子 穿 起来 ...,Positive,Positive,True
 49,1 	 莱卡   photogang ＂...,Positive,Positive,True
 50,1 	   终于 有所 斩获 布 很 上...,Positive,Positive,True
@@ -82,7 +82,7 @@
 81,1         差评 针对 京东 今...,Negative,Negative,True
 82,1         发货 快 第二天 收...,Positive,Positive,True
 83,1         很 好 开机 升级 ...,Positive,Positive,True
-84,1         衣服 还 行 码偏 ...,Negative,Positive,False
+84,1         衣服 还 行 码偏 ...,Negative,Negative,True
 85,1         华为 荣耀 平板 不...,Positive,Positive,True
 86,1 	 高飞 小米 9527   wo ...,Positive,Positive,True
 87,1         刚买 完 变 130...,Negative,Negative,True
