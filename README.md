@@ -1,153 +1,200 @@
-# Big-Data-Based-Social-Media-Sentiment-Analysis-System
+Big Data Based Social Media Sentiment Analysis System
 
-[![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Framework](https://img.shields.io/badge/PyTorch-2.0%2B-orange.svg)](https://pytorch.org/)
-[![Web Framework](https://img.shields.io/badge/Flask-2.3%2B-lightgrey.svg)](https://flask.palletsprojects.com/)
 
-## 项目概述
-基于大数据技术的社交媒体文本情感分析系统（以微博为核心数据源），覆盖**数据爬取 → 文本预处理 → LSTM模型训练 → 超参数对比 → Web可视化** 全流程，实现高精度情感极性分类（正向/负向），并提供交互式Web界面用于数据展示与文本预测。
 
-## 核心功能
-- 🕷️ **数据爬取与存储**：爬取微博热搜/评论数据，支持CSV/SQLite存储、批量获取与数据清洗
-- 🧹 **文本预处理**：实现中文分词（Jieba）、停用词过滤、Word2Vec词向量训练/转换
-- 🤖 **LSTM模型训练**：构建情感分类模型，支持损失函数/学习率/批量大小对比，集成早停机制防止过拟合
-- 📊 **性能可视化**：自动生成训练损失/准确率曲线、超参数对比图表，导出Top-100预测结果
-- 🌐 **Web可视化**：基于Flask实现完整Web界面，包含数据看板、情感分析、文本预测、数据表格等模块
+Project Overview
 
-## 技术栈
-| 分类 | 技术选型 |
-|------|---------|
-| 编程语言 | Python 3.10+ |
-| 深度学习框架 | PyTorch |
-| NLP工具 | Jieba（分词）、Gensim（Word2Vec） |
-| Web框架 | Flask |
-| 数据库 | SQLite |
-| 可视化 | Matplotlib、ECharts、WordCloud |
-| 版本控制 | Git + Git LFS（大文件管理） |
-| 数据处理 | Pandas、NumPy、scikit-learn |
-| 爬虫 | Requests |
+A full-stack sentiment analysis system for social media text (with Weibo as the primary data source) based on big data technologies. It covers the complete workflow: data crawling → text preprocessing → LSTM model training → hyperparameter comparison → web visualization. The system achieves high-precision sentiment polarity classification (positive/negative) and provides an interactive web interface for data display and text sentiment prediction.
 
-## 项目结构
-```
+Core Features
+
+- 🕷️ Data Crawling & Storage: Crawl Weibo hot search and comment data, support CSV/SQLite storage, batch data acquisition and data cleaning
+
+- 🧹 Text Preprocessing: Implement Chinese word segmentation (Jieba), stop word removal, and Word2Vec word vector training/conversion
+
+- 🤖 LSTM Model Training: Build sentiment classification model with support for loss function/learning rate/batch size comparison, integrated early stopping mechanism to prevent overfitting
+
+- 📊 Performance Visualization: Automatically generate training loss/accuracy curves, hyperparameter comparison charts, and export Top-100 prediction results
+
+- 🌐 Web Visualization: Complete web interface based on Flask, including data dashboard, sentiment analysis, text prediction, data tables and other modules
+
+Technology Stack
+
+Category
+
+Technologies
+
+Programming Language
+
+Python 3.10+
+
+Deep Learning Framework
+
+PyTorch
+
+NLP Tools
+
+Jieba (Word Segmentation), Gensim (Word2Vec)
+
+Web Framework
+
+Flask
+
+Database
+
+SQLite
+
+Visualization
+
+Matplotlib (Backend), ECharts (Frontend), WordCloud
+
+Version Control
+
+Git + Git LFS (Large File Storage)
+
+Data Processing
+
+Pandas, NumPy, scikit-learn
+
+Web Crawling
+
+Requests
+
+Project Structure
+
 PYTHONPROJECT/
-├── dao/                  # 数据访问层（数据库交互封装）
+├── dao/                  # Data Access Layer (Database interaction encapsulation)
 │   ├── __init__.py
-│   ├── dapingciyun.py    # 看板词云API
-│   ├── getCommentsData.py # 评论数据API
-│   ├── getDaPing.py      # 看板可视化数据API
-│   ├── getEmotionData.py # 情感分析数据API
-│   ├── getPageData.py    # 分页数据API
-│   ├── getPublicData.py  # 公共数据API
-│   ├── getTableData.py   # 表格数据API
-│   └── word_cloud.py     # 词云生成API
-├── file/                 # 公共数据存储目录
-│   ├── weiborebang.csv   # 原始微博热搜数据
-│   └── weiborebangdata.csv # 清洗后微博数据
-├── predictive/           # 核心预测与模型模块
+│   ├── dapingciyun.py    # Dashboard word cloud API
+│   ├── getCommentsData.py # Comment data API
+│   ├── getDaPing.py      # Dashboard visualization data API
+│   ├── getEmotionData.py # Sentiment analysis data API
+│   ├── getPageData.py    # Pagination data API
+│   ├── getPublicData.py  # Public data API
+│   ├── getTableData.py   # Table data API
+│   └── word_cloud.py     # Word cloud generation API
+├── file/                 # Public data storage directory
+│   ├── weiborebang.csv   # Raw Weibo hot search data
+│   └── weiborebangdata.csv # Cleaned Weibo data
+├── predictive/           # Core prediction and model module
 │   ├── __init__.py
-│   ├── LSTM.py           # LSTM模型训练（含早停/超参数对比）
-│   ├── machine.py        # 传统机器学习模型对比
-│   ├── yuce.py           # 模型预测与结果导出
-│   ├── getHistoryData.py # 历史数据获取脚本
-│   ├── cuda_test.py      # CUDA环境测试
-│   ├── hit_stopwords.txt # 哈工大停用词表
-│   ├── dict.txt.pkl      # 字典缓存文件
-│   ├── f.model*          # Word2Vec预训练模型文件
-│   ├── pos.txt/neg.txt   # 标注好的正负样本数据
-│   └── bingmayong1_with_sentiment.csv # 带情感标注的数据集
-├── spider/               # 数据爬取模块
-│   ├── spider.py         # 微博热搜/评论爬取主脚本
-│   ├── weiboData.py      # 微博数据结构化与清洗
-│   ├── weibo.sql         # SQLite表结构SQL
-│   └── file/             # 爬取数据存储目录
-├── static/               # Web前端静态资源
-│   ├── css/              # 样式文件（Bootstrap）
-│   ├── js/               # 前端交互脚本（ECharts）
-│   ├── font/             # 字体资源
-│   ├── image/            # 图片资源
-│   └── picture/          # 项目图片
-├── templates/            # Flask前端模板
-│   ├── index.html        # 系统首页
-│   ├── daping.html       # 数据看板页面
-│   ├── emotion.html      # 情感分析结果页
-│   ├── search.html       # 文本预测入口页
-│   ├── yuce.html         # 预测结果页
-│   ├── tableData.html    # 数据表格页
-│   ├── comments.html     # 评论详情页
-│   ├── recommend.html    # 推荐结果页
-│   ├── pages-login.html  # 登录页
-│   └── pages-register.html # 注册页
-├── app.py                # Flask Web服务入口
-├── db.py                 # SQLite数据库连接配置
-├── .gitattributes        # Git LFS大文件配置
-└── README.md             # 项目文档
-```
+│   ├── LSTM.py           # LSTM model training (with early stopping/hyperparameter comparison)
+│   ├── machine.py        # Traditional machine learning model comparison
+│   ├── yuce.py           # Model prediction and result export
+│   ├── getHistoryData.py # Historical data acquisition script
+│   ├── cuda_test.py      # CUDA environment test
+│   ├── hit_stopwords.txt # HIT Chinese stop word list
+│   ├── dict.txt.pkl      # Dictionary cache file
+│   ├── f.model*          # Pre-trained Word2Vec model files
+│   ├── pos.txt/neg.txt   # Labeled positive/negative sample data
+│   └── bingmayong1_with_sentiment.csv # Social media text dataset with sentiment labels
+├── spider/               # Data crawling module
+│   ├── spider.py         # Main Weibo hot search/comment crawling script
+│   ├── weiboData.py      # Weibo data structuring and cleaning
+│   ├── weibo.sql         # SQLite table structure SQL
+│   └── file/             # Crawled data storage directory
+├── static/               # Web frontend static resources
+│   ├── css/              # Style files (Bootstrap)
+│   ├── js/               # Frontend interactive scripts (ECharts)
+│   ├── font/             # Font resources
+│   ├── image/            # Image resources
+│   └── picture/          # Project images
+├── templates/            # Flask frontend templates
+│   ├── index.html        # System homepage
+│   ├── daping.html       # Data dashboard page
+│   ├── emotion.html      # Sentiment analysis result page
+│   ├── search.html       # Text sentiment prediction entry page
+│   ├── yuce.html         # Prediction result page
+│   ├── tableData.html    # Data table display page
+│   ├── comments.html     # Comment details page
+│   ├── recommend.html    # Recommendation result page
+│   ├── pages-login.html  # User login page
+│   └── pages-register.html # User registration page
+├── app.py                # Flask web service entry point
+├── db.py                 # SQLite database connection configuration
+├── .gitattributes        # Git LFS large file configuration
+└── README.md             # Project documentation
 
-## 快速开始
+Quick Start
 
-### 1. 环境配置
-```bash
-# 核心依赖
+1. Environment Setup
+
+# Core dependencies
 pip install torch>=2.0.0 pandas>=2.0.0 numpy>=1.24.0 jieba>=0.42.1 gensim>=4.3.0
 
-# 可视化与Web依赖
+# Visualization and Web dependencies
 pip install matplotlib>=3.7.0 flask>=2.3.0 wordcloud>=1.9.0
 
-# 数据处理与爬虫依赖
+# Data processing and crawling dependencies
 pip install scikit-learn>=1.2.0 requests>=2.31.0
-```
 
-### 2. 数据准备
-```bash
-# 1. 爬取微博数据
+2. Data Preparation
+
+# 1. Crawl Weibo data
 python spider/spider.py
 
-# 2. 文本预处理（分词/停用词过滤/词向量转换）
+# 2. Preprocess text data (segmentation/stopword removal/word vector conversion)
 python predictive/data_preprocess.py
-```
 
-### 3. 模型训练
-```bash
-# 训练LSTM模型（含超参数对比+早停机制）
+3. Model Training
+
+# Train LSTM model (with hyperparameter comparison and early stopping)
 python predictive/LSTM.py
-```
 
-### 4. 启动Web服务
-```bash
+4. Start Web Service
+
 python app.py
-```
-访问 `http://127.0.0.1:5000` 进入系统界面
 
-## 模型性能
-| 配置项 | 测试准确率 |
-|--------|------------|
-| 基础模型（CrossEntropyLoss, lr=0.001, batch=64） | 96.37% |
-| MSELoss模型（相同超参数） | 96.39% |
-| 最优学习率（0.001） | 96.31% |
-| 最优批量大小（16） | 96.54% |
+Accesshttp://127.0.0.1:5000 to enter the system interface.
 
-## 输出文件说明
-训练完成后自动生成以下文件：
-- `performance_*.png`：模型性能可视化图表（损失曲线/准确率曲线/超参数对比）
-- `predictions_*.csv`：模型预测结果数据（Top-100样本）
+Model Performance
 
-## 注意事项
-1. 📦 **大文件管理**：项目包含大文件（>50MB，如`dict.txt.pkl`、`f.model*.npy`），已配置Git LFS管理，避免GitHub文件大小限制
-2. ⚡ **CUDA加速**：模型支持GPU加速，运行`cuda_test.py`验证CUDA可用性；CPU训练兼容但速度较慢
-3. 📁 **结果文件**：模型训练后自动生成性能图表（PNG）和预测结果（CSV），可直接用于论文/报告展示
-4. 🔒 **数据隐私**：爬取的社交媒体数据仅用于研究，需遵守相关数据隐私法规
+Configuration
 
-## 联系方式
-- 作者：JunhaoJian
-- 邮箱：junhao.jian@outlook.com
-- GitHub：https://github.com/JunhaoJian/Big-Data-Based-Social-Media-Sentiment-Analysis-System
+Test Accuracy
 
-## 许可证
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Base Model (CrossEntropyLoss, lr=0.001, batch=64)
 
-## 更新日志
-1. 优化项目结构，移除冗余文件（__pycache__/.idea等），精简目录层级
-2. 补充dao层和file目录说明，匹配当前项目结构
-3. 明确输出文件用途，适配Python 3.10环境
-4. 标准化README格式，增加徽章、emoji标识提升可读性
+96.37%
+
+MSELoss Model (same hyperparameters)
+
+96.39%
+
+Optimal Learning Rate (0.001)
+
+96.31%
+
+Optimal Batch Size (16)
+
+96.54%
+
+Output File Description
+
+The following files are automatically generated after model training:
+
+- performance_*.png: Model performance visualization charts (loss curves/accuracy curves/hyperparameter comparison)
+
+- predictions_*.csv: Model prediction results (Top-100 samples)
+
+Notes
+
+- 📦 Large File Management: The project contains large files (>50MB, e.g., dict.txt.pkl, f.model*.npy). Git LFS is configured to manage these files to avoid GitHub file size limits
+
+- ⚡ CUDA Acceleration: The model supports GPU acceleration. Run cuda_test.py to verify CUDA availability; CPU training is compatible but runs slower
+
+- 📁 Result Files: Performance charts (PNG) and prediction results (CSV) are automatically generated after model training, which can be directly used for papers/reports
+
+- 🔒 Data Privacy: Crawled social media data is for research purposes only; comply with relevant data privacy regulations
+
+Contact
+
+- Author: JunhaoJian
+
+- Email: junhao.jian@outlook.com
+
+- GitHub: https://github.com/JunhaoJian/Big-Data-Based-Social-Media-Sentiment-Analysis-System
+
+License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
