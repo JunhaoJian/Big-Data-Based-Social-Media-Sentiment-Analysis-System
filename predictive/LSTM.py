@@ -400,51 +400,54 @@ for bs in batch_sizes:
 # -------------------------- 10. Performance Visualization --------------------------
 # 10.1 Base Model Performance Curves
 def plot_base_performance(train_losses, train_accs, test_losses, test_accs):
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+    actual_epochs = len(train_losses)  # 使用实际训练轮数
     
-    # Loss curve
-    ax1.plot(range(1, base_epochs+1), train_losses, label='Training Loss', marker='o', markersize=2)
-    ax1.plot(range(1, base_epochs+1), test_losses, label='Testing Loss', marker='s', markersize=2)
-    ax1.set_title('Base Model - Loss Curves (CrossEntropyLoss)')
-    ax1.set_xlabel('Epoch')
-    ax1.set_ylabel('Loss')
-    ax1.legend()
-    ax1.grid(True, alpha=0.3)
-    
-    # Accuracy curve
-    ax2.plot(range(1, base_epochs+1), train_accs, label='Training Accuracy', marker='o', markersize=2)
-    ax2.plot(range(1, base_epochs+1), test_accs, label='Testing Accuracy', marker='s', markersize=2)
-    ax2.set_title('Base Model - Accuracy Curves (CrossEntropyLoss)')
-    ax2.set_xlabel('Epoch')
-    ax2.set_ylabel('Accuracy')
-    ax2.set_ylim(0, 1.1)
-    ax2.legend()
-    ax2.grid(True, alpha=0.3)
-    
+    fig, ax1 = plt.subplots(figsize=(10, 6))
+
+    ax1.plot(range(1, actual_epochs+1), train_losses, label='Training Loss', marker='o', markersize=2)
+    ax1.plot(range(1, actual_epochs+1), test_losses, label='Test Loss', marker='s', markersize=2)
+    ax1.set_xlabel('Epochs')
+    ax1.set_ylabel('Loss', color='tab:red')
+    ax1.tick_params(axis='y', labelcolor='tab:red')
+    ax1.legend(loc='upper left')
+
+    ax2 = ax1.twinx()
+    ax2.plot(range(1, actual_epochs+1), train_accs, label='Training Accuracy', marker='^', markersize=2, color='tab:green')
+    ax2.plot(range(1, actual_epochs+1), test_accs, label='Test Accuracy', marker='*', markersize=2, color='tab:blue')
+    ax2.set_ylabel('Accuracy', color='tab:blue')
+    ax2.tick_params(axis='y', labelcolor='tab:blue')
+    ax2.legend(loc='upper right')
+
+    plt.title('Base Model Performance (CrossEntropyLoss)')
     plt.tight_layout()
-    plt.savefig('./performance_base.png', dpi=300, bbox_inches='tight')
+    plt.savefig('./base_model_performance.png', dpi=300)
     plt.show()
 
 # 10.2 Different Loss Function Comparison
 def plot_loss_comparison(base_loss, base_acc, mse_loss, mse_acc):
+    # 获取实际训练轮数（取两个模型中较小的，确保维度一致）
+    actual_epochs_base = len(base_loss['train'])
+    actual_epochs_mse = len(mse_loss['train'])
+    actual_epochs = min(actual_epochs_base, actual_epochs_mse)
+    
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
     
-    # Loss comparison
-    ax1.plot(range(1, base_epochs+1), base_loss['train'], label='CrossEntropy - Training', marker='o', markersize=2)
-    ax1.plot(range(1, base_epochs+1), base_loss['test'], label='CrossEntropy - Testing', marker='s', markersize=2)
-    ax1.plot(range(1, base_epochs+1), mse_loss['train'], label='MSE - Training', marker='^', markersize=2)
-    ax1.plot(range(1, base_epochs+1), mse_loss['test'], label='MSE - Testing', marker='*', markersize=2)
+    # Loss comparison - 使用实际轮数
+    ax1.plot(range(1, actual_epochs+1), base_loss['train'][:actual_epochs], label='CrossEntropy - Training', marker='o', markersize=2)
+    ax1.plot(range(1, actual_epochs+1), base_loss['test'][:actual_epochs], label='CrossEntropy - Testing', marker='s', markersize=2)
+    ax1.plot(range(1, actual_epochs+1), mse_loss['train'][:actual_epochs], label='MSE - Training', marker='^', markersize=2)
+    ax1.plot(range(1, actual_epochs+1), mse_loss['test'][:actual_epochs], label='MSE - Testing', marker='*', markersize=2)
     ax1.set_title('Different Loss Functions - Loss Curve Comparison')
     ax1.set_xlabel('Epoch')
     ax1.set_ylabel('Loss')
     ax1.legend()
     ax1.grid(True, alpha=0.3)
     
-    # Accuracy comparison
-    ax2.plot(range(1, base_epochs+1), base_acc['train'], label='CrossEntropy - Training', marker='o', markersize=2)
-    ax2.plot(range(1, base_epochs+1), base_acc['test'], label='CrossEntropy - Testing', marker='s', markersize=2)
-    ax2.plot(range(1, base_epochs+1), mse_acc['train'], label='MSE - Training', marker='^', markersize=2)
-    ax2.plot(range(1, base_epochs+1), mse_acc['test'], label='MSE - Testing', marker='*', markersize=2)
+    # Accuracy comparison - 使用实际轮数
+    ax2.plot(range(1, actual_epochs+1), base_acc['train'][:actual_epochs], label='CrossEntropy - Training', marker='o', markersize=2)
+    ax2.plot(range(1, actual_epochs+1), base_acc['test'][:actual_epochs], label='CrossEntropy - Testing', marker='s', markersize=2)
+    ax2.plot(range(1, actual_epochs+1), mse_acc['train'][:actual_epochs], label='MSE - Training', marker='^', markersize=2)
+    ax2.plot(range(1, actual_epochs+1), mse_acc['test'][:actual_epochs], label='MSE - Testing', marker='*', markersize=2)
     ax2.set_title('Different Loss Functions - Accuracy Curve Comparison')
     ax2.set_xlabel('Epoch')
     ax2.set_ylabel('Accuracy')
@@ -458,11 +461,15 @@ def plot_loss_comparison(base_loss, base_acc, mse_loss, mse_acc):
 
 # 10.3 Different Learning Rate Comparison (Two plots)
 def plot_lr_comparison(lr_results):
+    # 获取所有学习率模型的实际训练轮数，取最小值确保维度一致
+    all_epochs = [len(res['train_losses']) for res in lr_results.values()]
+    actual_epochs = min(all_epochs) if all_epochs else base_epochs
+    
     # Loss comparison plot
     fig1, ax1 = plt.subplots(figsize=(10, 6))
     for lr, res in lr_results.items():
-        ax1.plot(range(1, base_epochs+1), res['train_losses'], label=f'LR={lr} - Training', marker='o', markersize=2)
-        ax1.plot(range(1, base_epochs+1), res['test_losses'], label=f'LR={lr} - Testing', marker='s', markersize=2)
+        ax1.plot(range(1, actual_epochs+1), res['train_losses'][:actual_epochs], label=f'LR={lr} - Training', marker='o', markersize=2)
+        ax1.plot(range(1, actual_epochs+1), res['test_losses'][:actual_epochs], label=f'LR={lr} - Testing', marker='s', markersize=2)
     ax1.set_title('Different Learning Rates - Loss Curve Comparison')
     ax1.set_xlabel('Epoch')
     ax1.set_ylabel('Loss')
@@ -474,8 +481,8 @@ def plot_lr_comparison(lr_results):
     # Accuracy comparison plot
     fig2, ax2 = plt.subplots(figsize=(10, 6))
     for lr, res in lr_results.items():
-        ax2.plot(range(1, base_epochs+1), res['train_accs'], label=f'LR={lr} - Training', marker='o', markersize=2)
-        ax2.plot(range(1, base_epochs+1), res['test_accs'], label=f'LR={lr} - Testing', marker='s', markersize=2)
+        ax2.plot(range(1, actual_epochs+1), res['train_accs'][:actual_epochs], label=f'LR={lr} - Training', marker='o', markersize=2)
+        ax2.plot(range(1, actual_epochs+1), res['test_accs'][:actual_epochs], label=f'LR={lr} - Testing', marker='s', markersize=2)
     ax2.set_title('Different Learning Rates - Accuracy Curve Comparison')
     ax2.set_xlabel('Epoch')
     ax2.set_ylabel('Accuracy')
@@ -487,11 +494,15 @@ def plot_lr_comparison(lr_results):
 
 # 10.4 Different Batch Size Comparison (Two plots)
 def plot_batch_comparison(batch_results):
+    # 获取所有批次大小模型的实际训练轮数，取最小值确保维度一致
+    all_epochs = [len(res['train_losses']) for res in batch_results.values()]
+    actual_epochs = min(all_epochs) if all_epochs else base_epochs
+    
     # Loss comparison plot
     fig1, ax1 = plt.subplots(figsize=(10, 6))
     for bs, res in batch_results.items():
-        ax1.plot(range(1, base_epochs+1), res['train_losses'], label=f'BS={bs} - Training', marker='o', markersize=2)
-        ax1.plot(range(1, base_epochs+1), res['test_losses'], label=f'BS={bs} - Testing', marker='s', markersize=2)
+        ax1.plot(range(1, actual_epochs+1), res['train_losses'][:actual_epochs], label=f'BS={bs} - Training', marker='o', markersize=2)
+        ax1.plot(range(1, actual_epochs+1), res['test_losses'][:actual_epochs], label=f'BS={bs} - Testing', marker='s', markersize=2)
     ax1.set_title('Different Batch Sizes - Loss Curve Comparison')
     ax1.set_xlabel('Epoch')
     ax1.set_ylabel('Loss')
@@ -503,8 +514,8 @@ def plot_batch_comparison(batch_results):
     # Accuracy comparison plot
     fig2, ax2 = plt.subplots(figsize=(10, 6))
     for bs, res in batch_results.items():
-        ax2.plot(range(1, base_epochs+1), res['train_accs'], label=f'BS={bs} - Training', marker='o', markersize=2)
-        ax2.plot(range(1, base_epochs+1), res['test_accs'], label=f'BS={bs} - Testing', marker='s', markersize=2)
+        ax2.plot(range(1, actual_epochs+1), res['train_accs'][:actual_epochs], label=f'BS={bs} - Training', marker='o', markersize=2)
+        ax2.plot(range(1, actual_epochs+1), res['test_accs'][:actual_epochs], label=f'BS={bs} - Testing', marker='s', markersize=2)
     ax2.set_title('Different Batch Sizes - Accuracy Curve Comparison')
     ax2.set_xlabel('Epoch')
     ax2.set_ylabel('Accuracy')
@@ -622,36 +633,40 @@ results_df = plot_predictions(model_base, test_loader_base, X_test_l, y_test, to
 # -------------------------- 12. Terracotta Army Comment Sentiment Analysis --------------------------
 def analyze_bingmayong_comments(model, csv_path='./predictive/bingmayong1.csv'):
     # Load data
-    df = pd.read_csv(csv_path)
-    df = df.drop_duplicates(subset='content')
-    df = df[df['content'].notna() & (df['content'] != '')]
-    
-    # Prediction function
-    def predict_sentiment(text):
-        model.eval()
-        words = del_stop_words(text)
-        index_array = text_to_index_array(index_dict, [words])
-        tensor_input = creat_wordvec_tensor(embedding_weights, index_array)
+    try:
+        df = pd.read_csv(csv_path)
+        df = df.drop_duplicates(subset='content')
+        df = df[df['content'].notna() & (df['content'] != '')]
         
-        with torch.no_grad():
-            output = model(torch.from_numpy(tensor_input).float().to(device))
-            _, pred = torch.max(output, 1)
-        return 'Positive' if pred.item() == 1 else 'Negative'
-    
-    # Batch prediction
-    df['Predicted Sentiment'] = df['content'].apply(predict_sentiment)
-    
-    # Save results
-    df.to_csv('./predictive/bingmayong1_with_sentiment1.csv', index=False, encoding='utf-8-sig')
-    
-    # Statistics
-    sentiment_counts = df['Predicted Sentiment'].value_counts()
-    print("\nTerracotta Army Comment Sentiment Analysis Results:")
-    print(sentiment_counts)
-    print(f"Positive comment ratio: {sentiment_counts.get('Positive', 0)/len(df):.4f}")
-    print(f"Negative comment ratio: {sentiment_counts.get('Negative', 0)/len(df):.4f}")
-    
-    return df
+        # Prediction function
+        def predict_sentiment(text):
+            model.eval()
+            words = del_stop_words(text)
+            index_array = text_to_index_array(index_dict, [words])
+            tensor_input = creat_wordvec_tensor(embedding_weights, index_array)
+            
+            with torch.no_grad():
+                output = model(torch.from_numpy(tensor_input).float().to(device))
+                _, pred = torch.max(output, 1)
+            return 'Positive' if pred.item() == 1 else 'Negative'
+        
+        # Batch prediction
+        df['Predicted Sentiment'] = df['content'].apply(predict_sentiment)
+        
+        # Save results
+        df.to_csv('./predictive/bingmayong1_with_sentiment.csv', index=False, encoding='utf-8-sig')
+        
+        # Statistics
+        sentiment_counts = df['Predicted Sentiment'].value_counts()
+        print("\nTerracotta Army Comment Sentiment Analysis Results:")
+        print(sentiment_counts)
+        print(f"Positive comment ratio: {sentiment_counts.get('Positive', 0)/len(df):.4f}")
+        print(f"Negative comment ratio: {sentiment_counts.get('Negative', 0)/len(df):.4f}")
+        
+        return df
+    except FileNotFoundError:
+        print(f"Warning: File {csv_path} not found, skipping Terracotta Army comment analysis")
+        return None
 
 # Execute Terracotta Army comment analysis
 bm_df = analyze_bingmayong_comments(model_base)
